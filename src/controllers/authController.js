@@ -20,16 +20,29 @@ export const register = async (req, res) => {
 
 export const login = async (req, res) => {
   try {
-    const { uid } = req.body;
+    const { email, password } = req.body;
 
-    const token = await authService.loginUser(uid);
+    const loginData = await authService.loginUser(email, password);
 
-    res.json({
-      token,
+    res.status(200).json({
+      message: "Login successful",
+      idToken: loginData.idToken,
+      refreshToken: loginData.refreshToken,
+      uid: loginData.localId,
+      email: loginData.email,
     });
   } catch (error) {
     res.status(400).json({
-      error: error.message,
+      error:
+        error.response?.data?.error?.message ||
+        error.message,
     });
   }
+};
+
+export const profile = (req, res) => {
+  res.status(200).json({
+    message: "User authenticated successfully",
+    user: req.user,
+  });
 };
