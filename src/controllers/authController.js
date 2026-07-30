@@ -39,7 +39,23 @@ export const login = async (req, res) => {
     });
   }
 };
+export const forgotPassword = async (req, res) => {
+  try {
+    const { email } = req.body;
 
+    await authService.sendPasswordReset(email);
+
+    res.status(200).json({
+      message: "Password reset email sent successfully.",
+    });
+  } catch (error) {
+    res.status(400).json({
+      error:
+        error.response?.data?.error?.message ||
+        error.message,
+    });
+  }
+};
 export const profile = (req, res) => {
   res.status(200).json({
     message: "User authenticated successfully",
