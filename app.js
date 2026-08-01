@@ -2,6 +2,7 @@ import express from "express";
 import cors from "cors";
 import dotenv from "dotenv";
 import "./src/config/firebase.js";
+import "./src/config/db.js";
 import authRoutes from "./src/routes/authRoutes.js";
 
 dotenv.config();

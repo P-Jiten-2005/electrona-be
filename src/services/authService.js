@@ -1,11 +1,23 @@
 import axios from "axios";
 import { auth } from "../config/firebase.js";
+import pool from "../config/db.js";
 
 export const registerUser = async (email, password) => {
+  // Create user in Firebase
   const user = await auth.createUser({
     email,
     password,
   });
+
+  // Save user in PostgreSQL
+  await pool.query(
+    `
+    INSERT INTO users (firebase_uid, email)
+    VALUES ($1, $2)
+    ON CONFLICT (email) DO NOTHING
+    `,
+    [user.uid, user.email]
+  );
 
   return user;
 };
