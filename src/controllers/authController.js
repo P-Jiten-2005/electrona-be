@@ -32,6 +32,7 @@ export const login = async (req, res) => {
       email: loginData.email,
     });
   } catch (error) {
+    console.error("Login controller error", error.response?.data || error.message);
     res.status(400).json({
       error:
         error.response?.data?.error?.message ||
@@ -49,6 +50,7 @@ export const forgotPassword = async (req, res) => {
       message: "Password reset email sent successfully.",
     });
   } catch (error) {
+    console.error("Forgot password controller error", error.response?.data || error.message);
     res.status(400).json({
       error:
         error.response?.data?.error?.message ||
